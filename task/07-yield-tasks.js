@@ -33,7 +33,16 @@
  *
  */
 function* get99BottlesOfBeer() {
-    throw new Error('Not implemented');
+    for (let bottles = 99; bottles > 0; bottles -= 1) {
+        let bottles_ = bottles - 1 > 0 ? bottles - 1 : 'no more',
+            s        = bottles === 1 ? '' : 's',
+            s_       = bottles - 1 === 1 ? '' : 's';
+
+        yield `${bottles} bottle${s} of beer on the wall, ${bottles} bottle${s} of beer.`;
+        yield  `Take one down and pass it around, ${bottles_} bottle${s_} of beer on the wall.`
+    }
+    yield  `No more bottles of beer on the wall, no more bottles of beer.`;
+    yield  `Go to the store and buy some more, 99 bottles of beer on the wall.`;
 }
 
 
@@ -47,7 +56,16 @@ function* get99BottlesOfBeer() {
  *
  */
 function* getFibonacciSequence() {
-    throw new Error('Not implemented');
+    let n2 = 0,
+        n1 = 1;
+    yield n2;
+    yield n1;
+    while (true) {
+        let newOne = n1 + n2;
+        n2 = n1;
+        n1 = newOne;
+        yield  newOne;
+    }
 }
 
 
@@ -131,9 +149,9 @@ function* mergeSortedSequences(source1, source2) {
 
 
 module.exports = {
-    get99BottlesOfBeer: get99BottlesOfBeer,
+    get99BottlesOfBeer  : get99BottlesOfBeer,
     getFibonacciSequence: getFibonacciSequence,
-    depthTraversalTree: depthTraversalTree,
+    depthTraversalTree  : depthTraversalTree,
     breadthTraversalTree: breadthTraversalTree,
     mergeSortedSequences: mergeSortedSequences
 };

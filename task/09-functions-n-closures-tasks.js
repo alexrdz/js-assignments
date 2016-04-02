@@ -25,7 +25,7 @@
  *   getComposition(Math.sin, Math.asin)(x) => Math.sin(Math.acos(x))
  *
  */
-function getComposition(f,g) {
+function getComposition(f, g) {
     throw new Error('Not implemented');
 }
 
@@ -104,7 +104,15 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-    throw new Error('Not implemented');
+    return ()=> {
+        for (let i = 0; i <= attempts; i++) {
+            try {
+                return func();
+            } catch (err) {
+                if (i === attempts) throw  err;
+            }
+        }
+    }
 }
 
 
@@ -132,7 +140,15 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-    throw new Error('Not implemented');
+    return function () {
+        let values = Array.from(arguments),
+            json   = JSON.stringify(values).replace(/^\[(.+)]$/g, '($1)');
+
+        logFunc(`${func.name}${json} starts`);
+        let res = func(...values);
+        logFunc(`${func.name}${json} ends`);
+        return res;
+    };
 }
 
 
@@ -176,12 +192,12 @@ function getIdGeneratorFunction(startFrom) {
 
 
 module.exports = {
-    getComposition: getComposition,
-    getPowerFunction: getPowerFunction,
-    getPolynom: getPolynom,
-    memoize: memoize,
-    retry: retry,
-    logger: logger,
-    partialUsingArguments: partialUsingArguments,
+    getComposition        : getComposition,
+    getPowerFunction      : getPowerFunction,
+    getPolynom            : getPolynom,
+    memoize               : memoize,
+    retry                 : retry,
+    logger                : logger,
+    partialUsingArguments : partialUsingArguments,
     getIdGeneratorFunction: getIdGeneratorFunction,
 };
