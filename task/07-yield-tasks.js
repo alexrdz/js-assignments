@@ -192,19 +192,19 @@ function* mergeSortedSequences(source1, source2) {
  *   }).then(value=>console.log(value))  => 11
  */
 function async(generator) {
-    let sources = generator();
+    let iterator = generator();
 
     function nextValue(result) {
         if (result.done) return result.value;
 
         return result.value.then(function (res) {
-            return nextValue(sources.next(res));
+            return nextValue(iterator.next(res));
         }, function (err) {
-            return nextValue(sources.throw(err));
+            throw err;
         });
     }
 
-    return nextValue(sources.next());
+    return nextValue(iterator.next());
 }
 
 

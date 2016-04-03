@@ -38,8 +38,7 @@ function findElement(arr, value) {
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-    let prev = -1;
-    return Array.from({length: len}, ()=>(prev += 2));
+    return Array.from({length: len}, (v, i)=>i * 2 + 1);
 }
 
 
@@ -236,7 +235,7 @@ function toArrayOfSquares(arr) {
  */
 function getMovingSum(arr) {
     let prev = 0;
-    return arr.map((x, i)=> prev += x);
+    return arr.map(x=> prev += x);
 }
 
 /**
