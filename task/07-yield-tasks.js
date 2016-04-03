@@ -188,7 +188,23 @@ function* mergeSortedSequences(source1, source2) {
  *   async((function*() { var a = yield Promise.resolve(6); return a; })  => 6
  */
 function async(generator) {
-    throw new Error('Not implemented');
+    let sources = generator();
+
+    function nextValue(result) {
+        if (result.done) return result.value;
+
+        return result.value.then(function (res) {
+            return nextValue(sources.next(res));
+        }, function (err) {
+            return nextValue(sources.throw(err));
+        });
+    }
+
+    try {
+        return nextValue(sources.next());
+    } catch (err) {
+        return Promise.reject(err);
+    }
 }
 
 
