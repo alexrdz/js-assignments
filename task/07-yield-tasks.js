@@ -185,7 +185,11 @@ function* mergeSortedSequences(source1, source2) {
  * @return {Promise} Promise with value returned via return 
  *
  * @example
- *   async((function*() { var a = yield Promise.resolve(6); return a; })  => 6
+ *   async((function*() {
+ *      var a = yield new Promise((resolve)=> setTimeout(()=>resolve(5)));
+ *      var b = yield Promise.resolve(6);
+ *      return a + b;
+ *   }).then(value=>console.log(value))  => 11
  */
 function async(generator) {
     let sources = generator();
