@@ -101,20 +101,14 @@ function* getFibonacciSequence() {
  */
 function* depthTraversalTree(root) {
     let nodes = [];
-    nodes.push([...root.children || []]);
-    yield root;
-    while (nodes.length) {
-        let idx = nodes.length - 1;
-        if (nodes[idx].length) {
-            let newNode = nodes[idx].shift();
-            nodes.push([...newNode.children || []]);
-            yield newNode;
-        } else {
-            nodes.pop();
+    while (root) {
+        if (root.children) {
+            nodes = root.children.concat(nodes);
         }
+        yield root;
+        root = nodes.shift();
     }
 }
-
 
 /**
  * Traverses a tree using the breadth-first strategy
@@ -138,7 +132,14 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-    throw new Error('Not implemented');
+    let nodes = [];
+    while (root) {
+        if (root.children) {
+            nodes = nodes.concat(root.children);
+        }
+        yield root;
+        root = nodes.shift();
+    }
 }
 
 
@@ -156,7 +157,25 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-    throw new Error('Not implemented');
+    source1 = source1();
+    source2 = source2();
+    let a = source1.next(),
+        b = source2.next();
+
+    while (!(a.done && b.done)) {
+        if (b.done) {
+            yield a.value;
+            yield* source1;
+        } else if (a.done) {
+            yield b.value;
+            yield* source2;
+        }
+
+        yield Math.min(a.value, b.value);
+        yield Math.max(a.value, b.value);
+        a = source1.next();
+        b = source2.next();
+    }
 }
 
 
