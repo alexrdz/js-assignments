@@ -204,11 +204,7 @@ function async(generator) {
         });
     }
 
-    try {
-        return nextValue(sources.next());
-    } catch (err) {
-        return Promise.reject(err);
-    }
+    return nextValue(sources.next());
 }
 
 
