@@ -140,9 +140,8 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-    return function () {
-        let values = Array.from(arguments),
-            json   = JSON.stringify(values).replace(/^\[(.+)]$/g, '($1)');
+    return function (...values) {
+        let json   = JSON.stringify(values).replace(/^\[(.+)]$/g, '($1)');
 
         logFunc(`${func.name}${json} starts`);
         let res = func(...values);
